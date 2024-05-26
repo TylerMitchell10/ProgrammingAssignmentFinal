@@ -27,11 +27,6 @@ public class Course {
         this.students = new ArrayList<>();
         this.finalScores = new ArrayList<>();
     }
-
-    /**
-     *checks if the sum of weights of all assignments of that course equals to `1 (100%)`
-     * @return returns true if it's equals to 100%, otherwise false
-     */
     public boolean isAssignmentWeightValid() {
         int sum = 0;
         for (Assignment assignment : assignments) {
@@ -39,14 +34,6 @@ public class Course {
         }
         return sum > 100;
     }
-
-    /**
-     * adds a student to the student list of the course,
-     * also add a new `null` element to each assignment of this course,
-     * and add a new `null` element for the `finalScores`.
-     * @param student parameter to be checked and/and not be added to the course's list
-     * @return returns true if the student is not on the list, otherwise false
-     */
     public boolean registerStudent(Student student) {
         for (Student registeredStudent : students) {
             if (registeredStudent.equals(student)) {
@@ -61,11 +48,6 @@ public class Course {
         finalScores.add(null);
         return true;
     }
-
-    /**
-     * calculates the weighted average score of all students.
-     * weight * score
-     */
     public void calcStudentsAverage() {
         for (int i = 0; i < students.size(); i++) {
             double avg = 0;
@@ -76,14 +58,6 @@ public class Course {
             finalScores.set(i, avg);
         }
     }
-
-    /**
-     * adds a new assignment to the course
-     * @param assignmentName name of the assignment to be added
-     * @param weight weight of the assignment
-     * @param maxScore max score attained
-     * @return returns true if the assignment can be added otherwise false
-     */
     public boolean addAssignment(String assignmentName, double weight, int maxScore) {
         for (Assignment existingAssignment : assignments) {
             if (existingAssignment.getAssignmentName().equals(assignmentName)) {
@@ -95,22 +69,12 @@ public class Course {
         assignments.add(assignment);
         return true;
     }
-
-    /**
-     * generates random scores for each assignment and student,
-     * and calculates the final score for each student.
-     */
     public void generateScore() {
         for (Assignment assignment : assignments) {
             assignment.generateRandomScore();
         }
         calcStudentsAverage();
     }
-
-    /**
-     * displays the scores of a course in a table,
-     * with the assignment averages and student weighted average
-     */
     public void displayScores() {
         System.out.printf("%nCourse: %s(%s)%n", courseName, courseId);
 
