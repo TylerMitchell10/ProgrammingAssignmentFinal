@@ -2,6 +2,7 @@ package org.example;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import util.Util;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,7 +21,7 @@ public class Assignment {
 
     public Assignment(String assignmentName, double weight, int maxScore, int studentAmount) {
         this.assignmentId = String.format("%02d", nextId++);
-        this.assignmentName = assignmentName;
+        this.assignmentName = Util.toTitleCase(assignmentName);
         this.weight = weight;
         this.maxScore = maxScore;
 
@@ -28,9 +29,6 @@ public class Assignment {
         for (int i = 0; i < studentAmount; i++) {
             scores.add(null);
         }
-
-        generateRandomScore();
-        calcAssignmentAvg();
     }
     public void calcAssignmentAvg() {
         double avg = 0;
@@ -56,15 +54,5 @@ public class Assignment {
             scores.set(i, randScore);
         }
         calcAssignmentAvg();
-    }
-
-    @Override
-    public String toString() {
-        return "Assignment{" +
-                "assignmentId='" + assignmentId + '\'' +
-                ", assignmentName='" + assignmentName + '\'' +
-                ", weight=" + weight +
-                ", maxScore=" + maxScore +
-                '}';
     }
 }

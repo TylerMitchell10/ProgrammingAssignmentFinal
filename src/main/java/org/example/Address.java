@@ -25,7 +25,11 @@ public class Address {
         this.country = country;
         this.postalCode = isPostalCodeValid(postalCode) ? postalCode : null;
     }
-    private static boolean isPostalCodeValid(String postalCode) {
+    public static boolean isPostalCodeValid(String postalCode) {
+        if (postalCode == null) {
+            System.out.println("Postal code is null");
+            return false;
+        }
         if (postalCode.length() == 6) {
             return Character.isAlphabetic(postalCode.charAt(0)) &&
                     Character.isDigit(postalCode.charAt(1)) &&

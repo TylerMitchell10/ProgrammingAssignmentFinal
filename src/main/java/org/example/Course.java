@@ -2,6 +2,7 @@ package org.example;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import util.Util;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class Course {
 
     public Course(String courseName, double credits, Department department) {
         this.courseId = String.format("C-D%02d-%02d", nextId, nextId++);
-        this.courseName = courseName;
+        this.courseName = Util.toTitleCase(courseName);
         this.credits = credits;
         this.department = department;
         this.assignments = new ArrayList<>();
@@ -28,15 +29,19 @@ public class Course {
         this.finalScores = new ArrayList<>();
     }
     public boolean isAssignmentWeightValid() {
-        int sum = 0;
-        for (Assignment assignment : assignments) {
-            sum += (int) assignment.getWeight();
+        if (assignments == null || assignments.isEmpty()) {
+            return false;
         }
-        return sum > 100;
+        double sum = 0;
+        for (Assignment assignment : assignments) {
+            sum += assignment.getWeight();
+        }
+        return sum >= 1;
     }
     public boolean registerStudent(Student student) {
         for (Student registeredStudent : students) {
             if (registeredStudent.equals(student)) {
+                System.out.println("Student is already registered");
                 return false;
             }
         }
@@ -49,6 +54,9 @@ public class Course {
         return true;
     }
     public void calcStudentsAverage() {
+        if (assignments == null || students == null) {
+            return;
+        }
         for (int i = 0; i < students.size(); i++) {
             double avg = 0;
 
@@ -61,12 +69,14 @@ public class Course {
     public boolean addAssignment(String assignmentName, double weight, int maxScore) {
         for (Assignment existingAssignment : assignments) {
             if (existingAssignment.getAssignmentName().equals(assignmentName)) {
+                System.out.println("Assignment already exists");
                 return false;
             }
         }
 
         Assignment assignment = new Assignment(assignmentName, weight, maxScore, students.size());
         assignments.add(assignment);
+        System.out.println("Assignment was created successfully");
         return true;
     }
     public void generateScore() {
@@ -111,7 +121,6 @@ public class Course {
                 ", department=" + department.getDepartmentName() +
                 '}';
     }
-
     @Override
     public String toString() {
         String str =  "Course{" +
